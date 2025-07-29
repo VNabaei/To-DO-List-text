@@ -67,29 +67,49 @@ class Task :
         # -- id :
         self.TSKid = f"TSK-{tasks_counter:08d}"
         self.title = title
-        self.DDline
+        self.DDline = self.add_DDLine()
         self.subtask = []
-        self.info
-       # self.Status()
+        self.info = self.add_info()
+        self.status = "created"
         
         
         self.tasks.append({
             "title" : self.title ,
-                           "DDline" : None ,
-                           "subtask" : self.subtask,
-                           "info" : None,
-                           "Status" : self.Status()="created",
-                            "creator" : 'usere'}) # برای انجام دهنده ببین میتونی کاربری که برنامه را ران کرده بگیری؟
- 
+            "DDline" : self.DDline ,
+            "subtask" : self.subtask,
+            "info" : self.info,
+            "Status" : self.status,
+            "creator" : getpass.getuser()
+            })
+
+  
+    def add_DDLine(self ):
+        while True:
+            try :
+    
+                user_input = input("input the day : (ex: 2025-07-29): ")
+                if not user_input.strip():
+                    return datetime().today().date() #ممکن است کاربر اریخ وارد نکند برای همین به صورت  پیش فرض تاریخ امروز را میزنم
+                user_date = datetime.strptime(user_input, "%Y-%m-%d").date()
+                        
+                return user_date
         
-                    
-    def add_DDLine(self):
-        pass
+            except ValueError :
+                print ("Your input does not match the required format (year-month-day). Please enter it again : ")
+    
+        
     def add_info(self):
-        pass
-    def add_subtask(self):
-        pass
+        print ("در صورت تمایل توضیحات را وارد کنید.")
+        info = input("info :\n ")
+        return info
      
+    '''
+    چون جزئیات زیاد داره فعلا اینو بیخیال میشیم
+    def add_subtask(self):
+        n = input("how many subTask you want to add : ")
+        for i in n :
+            self.subtask.append(input(f"please inter the {i}-th subTask :  "))
+'''     
     
     
     def search_task(self):
