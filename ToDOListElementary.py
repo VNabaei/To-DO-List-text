@@ -20,10 +20,11 @@ class To_Do_List:
         #TLD-XXXX-TLD-YYYY-Date Time.
         #TLD : To Do List ,
         #TSK : task,
-        #XXXX :counter of n-th todolist x in range (0,8),
-        #YYYY: counter of m-th Task Y in range (0,8).
+        #XXXXXXXX :counter of n-th todolist x in range (0,8),
+        #YYYYYYYY: counter of m-th Task Y in range (0,8).
         
         self.TLDid  = f"TDL-{To_Do_List.list_counter:08d}"    # It's manual for now, I'll fix it later.😅
+        self.TotalId = creat_TotalId(self, "TSK-00000000")
         
         self.tasks_counter = 0 # for create the TSK id.
         self.tasks= [] #put the tasks of TLD here.
@@ -31,24 +32,32 @@ class To_Do_List:
 
         self.history = []
         # history format = {action : ,idTask : , dateAction: , who: }
-        self.History("new Todo list",self.TLDid) 
+        History("new Todo list",self.TLDid) 
         
         
         To_Do_List.list_counter += 1 #done !
         
         
         
-    # ---- the functions:    
-    def History (self,action , idTask ):
-        self.history.append({
-            "action": action,
-            "IDTask/target": idTask,
-            "date time": datetime.now() ,
-            "performed_by ":getpass.getuser()
-            })
+
         
     # ---- for the tasks : (composition)
     def add_task(self,title_Name,title : str):
+        '''
+        this function add the task in to do list
+
+        Parameters
+        ----------
+        title_Name :  str
+            the to do list title name.
+        title : str
+            the task title .
+
+        Returns
+        -------
+        None.
+
+        '''
         
         # -- id :
         self.tasks_counter +=1
@@ -56,8 +65,10 @@ class To_Do_List:
         newTask = Task(self.tasks_counter,title_Name,title)
         self.tasks.append(newTask)
         
-        id = self.TDLid + "-" + newTask.TSKid
-        self.History("new task",id) 
+        id = creat_TotalId(self, newTask)
+        
+        
+        History(self,"new task",id) 
 
 
 
@@ -131,4 +142,48 @@ class Task :
             #وضعیت تسک را بزن تاخیر خورده
             # و گرنه هیچی
         
+# ---- the functions:    
+def History (item ,action , idTask ):
+    '''
+    the function that creat history from action to history array.
+
+    Parameters
+    ----------
+    item : 
+        Task or to do list.
+    action : str
+        in every function overwriting.
+    idTask : str
+        Total Id from TDL and TSK.
+
+    Returns
+    -------
+    None.
+
+    '''
+    item.history.append({
+               "action": action,
+               "IDTask/target": idTask,
+               "date time": datetime.now() ,
+               "performed_by ":getpass.getuser()
+               })   
+    
+def creat_TotalId(TDL_item , TSK_item):
+    '''
+    this function creat total id
+
+    Parameters
+    ----------
+    TDL_item :  To_Do_List
         
+    TSK_item :  Task
+
+    Returns
+    -------
+    TotalId :  str
+        DESCRIPTION.
+
+    '''
+    TotalId = TDL_item.TDLid + "-" + TSK_item.TSKid
+    return TotalId
+    
