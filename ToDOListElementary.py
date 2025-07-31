@@ -7,6 +7,7 @@ Created on Mon Jul 28 15:00:47 2025
 #برای گرفتن نام ایجاد کننده یا نام ویرایشگز
 import getpass 
 from datetime import datetime
+import os
 
 
 '''
@@ -16,6 +17,7 @@ from datetime import datetime
  ولی همین آیدی بهتره
  پس دیکشنری میشازم
  '''
+
 
 
 class To_Do_List:
@@ -78,6 +80,18 @@ class To_Do_List:
 
 
     def simple_search_task(self, target):
+        '''
+        search the target in title of task
+        
+        Parameters
+        ----------
+        target :  str
+            
+        Returns
+        -------
+        result of search.
+
+        '''
         results = []
         for task in self.tasks :
             if target.upper() in task["title"].upper() :#نمیدونم استفاد از upper بهتره یا lower
@@ -96,8 +110,17 @@ class To_Do_List:
         return results
  
         
-    def remove_task(self): # این عملیات مستقیم روی تسک انجام می شود
-        id = self.TSKid
+    def remove_task(self,target :str): # این عملیات مستقیم روی list انجام می شود
+        tasks = self.tasks["title"]
+        for t in tasks :
+            if target.upper() in t.upper():
+                self.tasks.remove(t)
+                print (f"{target} removed")
+                return
+            else :
+                print (f"{target} not found")
+        
+        
     
     
     def edit_task(self):
@@ -232,3 +255,31 @@ def Get_User():
         return user
     except Exception:
         return "Unknown"
+
+
+
+
+
+# D:\MyJob\to_do_list>ssh-keygen -t rsa -b 4096 -C "v.nabaee@gmail.com"
+# Generating public/private rsa key pair.
+# Enter file in which to save the key (C:\Users\HP/.ssh/id_rsa):
+# C:\Users\HP/.ssh/id_rsa already exists.
+# Overwrite (y/n)? y
+# Enter passphrase (empty for no passphrase):
+# Enter same passphrase again:
+# Your identification has been saved in C:\Users\HP/.ssh/id_rsa
+# Your public key has been saved in C:\Users\HP/.ssh/id_rsa.pub
+# The key fingerprint is:
+# SHA256:qxrFX0w87dcx5VopEwtq221knRFQH4d5LroKsrzS7DQ v.nabaee@gmail.com
+# The key's randomart image is:
+# +---[RSA 4096]----+
+# |           . ooB+|
+# |         .... *.X|
+# |         o+ .* O+|
+# |     .  .ooo+ +++|
+# |      o S.o..+o..|
+# |     . . o  o.   |
+# |    .oE +    .   |
+# |    .+o= .  .    |
+# |    .+*.  ..     |
+# +----[SHA256]-----+
